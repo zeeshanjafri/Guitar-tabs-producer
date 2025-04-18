@@ -17,14 +17,14 @@ WHITE = (255, 255, 255)
 font = pygame.font.SysFont('Arial', 24)
 
 # Example tab data - each inner list represents a string (high E to low E)
-# 0 means open string, numbers 1-20 represent frets
+# 0 means open string, -1 means not played, numbers 1-20 represent frets
 example_tab = [
-    [0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # High E string
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # B string
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # G string
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # D string
-    [2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # A string
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]   # Low E string
+    [0, 3, 3, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],  # High E string
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],  # B string
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],  # G string
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],  # D string
+    [2, 2, 2, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],  # A string
+    [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]   # Low E string
 ]
 
 # Main game loop
@@ -57,11 +57,13 @@ while running:
     note_spacing = 50  # Space between each note
     for string_idx, string_notes in enumerate(example_tab):
         for note_idx, fret in enumerate(string_notes):
-            if fret > 0:  # Only draw if there's a note (not 0)
-                x = 100 + (note_idx * note_spacing)
-                y = start_y + (string_idx * line_spacing) - 20
+            x = 100 + (note_idx * note_spacing)
+            y = start_y + (string_idx * line_spacing) - 20
+            if fret == -1:
+                text_surface = font.render("-", True, BLACK)
+            else:
                 text_surface = font.render(str(fret), True, BLACK)
-                screen.blit(text_surface, (x, y))
+            screen.blit(text_surface, (x, y))
 
     # Update the display
     pygame.display.flip()
